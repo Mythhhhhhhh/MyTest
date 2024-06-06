@@ -2,14 +2,13 @@ package cn.myth.jdk8;
 
 import cn.myth.jdk8.demo.Author;
 import cn.myth.jdk8.demo.Book;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LambdaTest {
+public class LambdaTest extends AbstractBaseTest {
 
     @Test
     public void fun() {
@@ -24,41 +23,6 @@ public class LambdaTest {
     }
 
     /* ------------------------------------------------ */
-
-    private static final String LINE = "------------------------------------------------";
-
-    private List<Author> authorList;
-
-    @Before
-    public void init() {
-        //数据初始化
-        Author author = new Author(1L,"蒙多",33,"一个从菜刀中明悟哲理的祖安人",null);
-        Author author2 = new Author(2L,"亚拉索",15,"狂风也追逐不上他的思考速度",null);
-        Author author3 = new Author(3L,"易",14,"是这个世界在限制他的思维",null);
-        Author author4 = new Author(3L,"易",14,"是这个世界在限制他的思维",null);
-
-        //书籍列表
-        List<Book> books1 = new ArrayList<>();
-        List<Book> books2 = new ArrayList<>();
-        List<Book> books3 = new ArrayList<>();
-
-        books1.add(new Book(1L,"刀的两侧是光明与黑暗","哲学,爱情",88,"用一把刀划分了爱恨"));
-        books1.add(new Book(2L,"一个人不能死在同一把刀下","个人成长,爱情",99,"讲述如何从失败中明悟真理"));
-
-        books2.add(new Book(3L,"那风吹不到的地方","哲学",85,"带你用思维去领略世界的尽头"));
-        books2.add(new Book(3L,"那风吹不到的地方","哲学",85,"带你用思维去领略世界的尽头"));
-        books2.add(new Book(4L,"吹或不吹","爱情,个人传记",56,"一个哲学家的恋爱观注定很难把他所在的时代理解"));
-
-        books3.add(new Book(5L,"你的剑就是我的剑","爱情",56,"无法想象一个武者能对他的伴侣这么的宽容"));
-        books3.add(new Book(6L,"风与剑","个人传记",100,"两个哲学家灵魂和肉体的碰撞会激起怎么样的火花呢？"));
-        books3.add(new Book(6L,"风与剑","个人传记",100,"两个哲学家灵魂和肉体的碰撞会激起怎么样的火花呢？"));
-
-        author.setBooks(books1);
-        author2.setBooks(books2);
-        author3.setBooks(books3);
-        author4.setBooks(books3);
-        authorList = new ArrayList<>(Arrays.asList(author,author2,author3,author4));
-    }
 
     @Test
     public void example() {
@@ -259,6 +223,12 @@ public class LambdaTest {
         System.out.println(LINE);
 
         // 使用reduce求所有作者中年龄的最大值和最小值
+        /**
+         * T result = identity;
+         * for (T element : this stream)
+         * 	result = accumulator.apply(result, element)
+         * return result;
+         */
         Integer maxAuthorAge = authorList
                 .stream()
                 .map(author -> author.getAge())
@@ -272,6 +242,19 @@ public class LambdaTest {
         System.out.println(minAuthorAge);
 
         // 用reduce一个参数的重载形式内部的计算
+        /**
+         *  	boolean foundAny = false;
+         *      T result = null;
+         *      for (T element : this stream) {
+         *          if (!foundAny) {
+         *              foundAny = true;
+         *              result = element;
+         *          }
+         *          else
+         *              result = accumulator.apply(result, element);
+         *      }
+         *      return foundAny ? Optional.of(result) : Optional.empty();
+         */
         Optional<Integer> minAuthorAgeOptional = authorList
                 .stream()
                 .map(author -> author.getAge())
@@ -279,9 +262,30 @@ public class LambdaTest {
         minAuthorAgeOptional.ifPresent(age -> System.out.println(age));
 
         System.out.println(LINE);
+    }
 
+    // 基本数据类型优化
+    // 我们之前用到的很多Stream的方法由于都使用了泛型。所以涉及到的参数和返回值都是引用数据类型。
+    // 即使我们操作的是整数小数，但是实际用的都是他们的包装类。JDK5中引入的自动装箱和自动拆箱让我们在使用对应的包装类时就好像使用基本数据类型一样方便。但是你一定要知道装箱和拆箱肯定是要消耗时间的。虽然这个时间消耗很下。但是在大量的数据不断的重复装箱拆箱的时候，你就不能无视这个时间损耗了。
+    // 所以为了让我们能够对这部分的时间消耗进行优化。Stream还提供了很多专门针对基本数据类型的方法。
+    // 例如：mapToInt,mapToLong,mapToDouble,flatMapToInt,flatMapToDouble等。
+    @Test
+    public void convert() {
+        authorList.stream()
+                .map(author -> author.getAge())
+                .map(age -> age + 10)
+                .filter(age -> age > 18)
+                .map(age -> age + 2)
+                .forEach(System.out::println);
 
+        System.out.println(LINE);
 
+        authorList.stream()
+                .mapToInt(author -> author.getAge())
+                .map(age -> age + 10)
+                .filter(age -> age > 18)
+                .map(age -> age + 2)
+                .forEach(System.out::println);
 
     }
 
