@@ -47,8 +47,14 @@ public class CostTimeInvocationHandler implements InvocationHandler {
     }
 
     public static void main(String[] args) {
+        // 输出变量
+        System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles","true");
+
         IService serviceA = CostTimeInvocationHandler.createProxy(new ServiceA(), IService.class);
         IService serviceB = CostTimeInvocationHandler.createProxy(new ServiceB(), IService.class);
+
+        System.out.println(serviceA.getClass());
+
         serviceA.m1();
         serviceA.m2();
         serviceA.m3();
