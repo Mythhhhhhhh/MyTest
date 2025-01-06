@@ -1,6 +1,5 @@
-package cn.myth.apache;
+package cn.myth.apache_common;
 
-import org.apache.commons.collections4.MultiMapUtils;
 import org.apache.commons.collections4.MultiSet;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;

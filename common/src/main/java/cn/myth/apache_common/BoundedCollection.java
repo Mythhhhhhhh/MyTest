@@ -1,4 +1,4 @@
-package cn.myth.apache;
+package cn.myth.apache_common;
 
 import org.apache.commons.collections4.list.FixedSizeList;
 import org.apache.commons.collections4.queue.CircularFifoQueue;

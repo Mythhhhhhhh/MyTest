@@ -1,4 +1,4 @@
-package cn.myth.apache;
+package cn.myth.apache_common;
 
 import org.apache.commons.collections4.multiset.HashMultiSet;
 import org.junit.Test;
