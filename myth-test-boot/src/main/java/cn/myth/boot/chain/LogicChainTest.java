@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(properties = "spring.output.ansi.enabled=ALWAYS")
 public class LogicChainTest {
 
     @Resource
