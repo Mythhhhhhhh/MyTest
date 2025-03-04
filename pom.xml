@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- pom模型版本 maven2.0 以后固定 4.0.0 -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 定义当前构件所属的组，通常与域名反向一一对应 -->
+    <groupId>cn.myth</groupId>
+    <!-- 项目的唯一ID，一个groupId下面可能多个项目，就是靠artifactId来区分的 -->
+    <artifactId>myth-test</artifactId>
+    <!-- 版本号 -->
+    <version>${revision}</version>
+
+    <packaging>pom</packaging>
+    <modules>
+            <module>common</module>
+    </modules>
+
+    <name>Myth-Test</name>
+    <url>https://github.com/xxxxxxx</url>
+    <description>Myth Test</description>
+
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+        <spring-boot.version>2.6.13</spring-boot.version>
+    </properties>
+
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- SpringBoot的依赖配置-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
+
+
